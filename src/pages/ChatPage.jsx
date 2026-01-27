@@ -96,12 +96,11 @@ const ChatPage = () => {
     if (!chatClient || !channel) return;
 
     const handleNewMessage = async (event) => {
-      // Only notify the other user when YOU send a message
       if (event.user.id === authUser._id) {
         await axiosInstance.post("/users/message-notification", {
-          recipientId: targetUserId, // The other user
+          recipientId: targetUserId, 
           message: event.message.text,
-          from: authUser._id, // You (the sender)
+          from: authUser._id, 
         });
       }
     };
