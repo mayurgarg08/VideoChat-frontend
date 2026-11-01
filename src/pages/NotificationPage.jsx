@@ -12,6 +12,7 @@ import {
   UserCheckIcon,
 } from "lucide-react";
 import NoNotificationsFound from "../components/NoNotificationsFound";
+import { getAvatarUrl, handleAvatarError } from "../lib/utils";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -91,7 +92,13 @@ const NotificationPage = () => {
                           <div className="flex items-center gap-3">
                             <div className="avatar w-14 h-14 rounded-full bg-base-300">
                               <img
-                                src={request.sender.profilePic}
+                                src={getAvatarUrl(
+                                  request.sender.profilePic,
+                                  request.sender._id
+                                )}
+                                onError={(e) =>
+                                  handleAvatarError(e, request.sender._id)
+                                }
                                 alt={request.sender.fullName}
                               />
                             </div>
@@ -139,7 +146,8 @@ const NotificationPage = () => {
                       <div className="avatar mt-1 size-10 rounded-full">
                         {notif.from?.profilePic ? (
                           <img
-                            src={notif.from.profilePic}
+                            src={getAvatarUrl(notif.from.profilePic, notif.from._id)}
+                            onError={(e) => handleAvatarError(e, notif.from._id)}
                             alt={notif.from.fullName || "User"}
                           />
                         ) : (
@@ -189,7 +197,13 @@ const NotificationPage = () => {
                           <div className="avatar mt-1 size-10 rounded-full">
                             {notification.recipient?.profilePic ? (
                               <img
-                                src={notification.recipient.profilePic}
+                                src={getAvatarUrl(
+                                  notification.recipient.profilePic,
+                                  notification.recipient._id
+                                )}
+                                onError={(e) =>
+                                  handleAvatarError(e, notification.recipient._id)
+                                }
                                 alt={notification.recipient.fullName || "User"}
                               />
                             ) : (

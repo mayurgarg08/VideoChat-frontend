@@ -3,6 +3,7 @@ import { StreamChat } from "stream-chat"; // Import if not already
 import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, LogOutIcon, ShipWheelIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
+import { getAvatarUrl, handleAvatarError } from "../lib/utils";
 import useLogout from "../hooks/useLogout";
 
 const Navbar = () => {
@@ -57,9 +58,9 @@ const Navbar = () => {
           <div className="avatar">
             <div className="w-9 rounded-full">
               <img
-                src={authUser?.profilePic}
+                src={getAvatarUrl(authUser?.profilePic, authUser?._id)}
                 alt="User Avatar"
-                rel="noreferrer"
+                onError={(e) => handleAvatarError(e, authUser?._id)}
               />
             </div>
           </div>

@@ -14,7 +14,11 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { capitialize } from "../lib/utils";
+import {
+  capitialize,
+  getAvatarUrl,
+  handleAvatarError,
+} from "../lib/utils";
 
 import FriendCard, { getLanguageFlag } from "../components/FriendCard.jsx";
 import NoFriendsFound from "../components/NoFriendsFound";
@@ -122,7 +126,11 @@ const HomePage = () => {
                     <div className="card-body p-5 space-y-4">
                       <div className="flex items-center gap-3">
                         <div className="avatar size-16 rounded-full">
-                          <img src={user.profilePic} alt={user.fullName} />
+                          <img
+                            src={getAvatarUrl(user.profilePic, user._id)}
+                            alt={user.fullName}
+                            onError={(e) => handleAvatarError(e, user._id)}
+                          />
                         </div>
 
                         <div>

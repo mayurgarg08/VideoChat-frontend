@@ -10,6 +10,11 @@ import {
   ShuffleIcon,
 } from "lucide-react";
 import { LANGUAGES } from "../constants";
+import {
+  generateRandomAvatarUrl,
+  getAvatarUrl,
+  handleAvatarError,
+} from "../lib/utils";
 
 const OnboardingPage = () => {
   const { authUser } = useAuthUser();
@@ -21,7 +26,9 @@ const OnboardingPage = () => {
     nativeLanguage: authUser?.nativeLanguage || "",
     learningLanguage: authUser?.learningLanguage || "",
     location: authUser?.location || "",
-    profilePic: authUser?.profilePic || "",
+    profilePic: authUser?.profilePic
+      ? getAvatarUrl(authUser.profilePic, authUser._id)
+      : "",
   });
 
   const { mutate: onboardingMutation, isPending } = useMutation({
@@ -43,8 +50,7 @@ const OnboardingPage = () => {
   };
 
   const handleRandomAvatar = () => {
-    const idx = Math.floor(Math.random() * 100) + 1; // 1-100 included
-    const randomAvatar = `https://avatar.iran.liara.run/public/${idx}.png`;
+    const randomAvatar = generateRandomAvatarUrl();
 
     setFormState({ ...formState, profilePic: randomAvatar });
     toast.success("Random profile picture generated!");
@@ -67,6 +73,7 @@ const OnboardingPage = () => {
                   <img
                     src={formState.profilePic}
                     alt="Profile Preview"
+                    onError={(e) => handleAvatarError(e, authUser?._id)}
                     className="w-full h-full object-cover"
                   />
                 ) : (

@@ -2,6 +2,7 @@ import { StreamChat } from "stream-chat";
 import { useParams } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import useAuthUser from "../hooks/useAuthUser";
+import { getAvatarUrl } from "../lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { getStreamToken } from "../lib/api";
 import { axiosInstance } from "../lib/axios";
@@ -57,7 +58,7 @@ const ChatPage = () => {
           {
             id: authUser._id,
             name: authUser.fullName,
-            image: authUser.profilePic,
+            image: getAvatarUrl(authUser.profilePic, authUser._id),
           },
           tokenData.token
         );

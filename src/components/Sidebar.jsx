@@ -3,6 +3,7 @@ import useAuthUser from "../hooks/useAuthUser";
 import { BellIcon, HomeIcon, ShipWheelIcon, UsersIcon } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getNotifications } from "../lib/api";
+import { getAvatarUrl, handleAvatarError } from "../lib/utils";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
@@ -70,7 +71,11 @@ const Sidebar = () => {
         <div className="flex items-center gap-3">
           <div className="avatar">
             <div className="w-10 rounded-full">
-              <img src={authUser?.profilePic} alt="User Avatar" />
+              <img
+                src={getAvatarUrl(authUser?.profilePic, authUser?._id)}
+                alt="User Avatar"
+                onError={(e) => handleAvatarError(e, authUser?._id)}
+              />
             </div>
           </div>
           <div className="flex-1">
